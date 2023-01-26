@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Cambo&display=swap');
+
+*{
+    margin: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+
+.navbar{
+    height:70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 50px;
+    background-color: #c77dff;
+   
+}
+
+.navbar .logo h1{
+    font-family: 'Cambo', serif;
+    font-size: 2rem;
+    color: #fff;
+}
+
+.navbar .avatar{
+    padding: 10px 15px;
+    border: 5px solid #fff;
+    border-radius: 50%;
+    color: #fff;
+    cursor: pointer;
+}
+
+.flash-message {
+    width:70%;
+    margin:  20px auto 0;
+
+}
+.input-section{
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+.input-section form input[type = "text"]{
+    padding: 10px;
+    border: 2px solid #8a817c;
+    width: 500px;
+    border-radius: 10px;
+}
+
+.input-section form button {
+    margin-left: 20px;
+    border: 2px solid #e0aaff;
+    padding: 10px 20px;
+    border-radius: 5px; 
+    background-color: #c77dff;
+    cursor: pointer;
+    color:#fff
+}
+
+.icon-info{
+  width: 30%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+
+  .dates-section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border : 2px solid #e7c6ff;
+    border-radius: 10px;
+    margin: 10px auto 0;
+    width: 90%;
+  }
+
+  .dates-section .text-and-icon{
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+  }
+
+  .dates-section .text-and-icon h3{
+    margin-right: 10px;
+    font-size: 1.5rem;
+  }
+
+  .dates-section .text-and-icon i{
+    color: #e63946;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 10px;
+  }
+
+  .dates-section .text-and-icon button{
+    border: none;
+    outline: none;
+    background-color: transparent;
+  }
+
+  .dates-section .date-box{
+    border: 3px solid #c77dff;
+    border-radius: 10px;
+    width:120px;
+    height: 80px;
+    padding: 10px;
+    background-color: #e0aaff;
+    margin-right: 20px;
+  }
+
+  .dates-section .date-box .status-icon{
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+  }
+
+  .dates-section .date-box .status-icon button{
+    border: none;
+    outline: none;
+    background-color: transparent;
+  }
+  
+  .dates-section .date-box .status-icon i{
+    font-size: 1.2rem;
+    padding: 5px;
+    cursor: pointer;
+   
+  }
+
+  .dates-section .date-box .date{
+    font-size: 1.1rem;
+    font-weight: 600;
+    color:#fff;
+    text-align: center;
+  }

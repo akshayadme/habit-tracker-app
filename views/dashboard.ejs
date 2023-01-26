@@ -1,0 +1,215 @@
+<nav class="navbar">
+  <div class="logo">
+    <h1>Habit Tracker</h1>
+  </div>
+  <div class="avatar">
+    <i class="fas fa-user-alt"></i>
+  </div>
+</nav>
+<div class="input-section">
+  <form action="/add-habit" method="POST">
+    <input
+      type="text"
+      name="habit"
+      id=""
+      placeholder="Enter habit here...."
+      required
+    />
+    End Date :
+    <input
+      type="date"
+      name="end_date"
+      id=""
+      placeholder="Enter End Date..."
+      required
+    />
+
+    <button type="submit"><i class="fas fa-plus"></i></button>
+  </form>
+</div>
+
+<div class="flash-message"><%- include ("./partials/flash_message") %></div>
+
+<div class="icon-info">
+  <p><i class="fas fa-check-circle" style="color: #89fc00"></i> Done</p>
+  <p><i class="fas fa-times-circle" style="color: #e63946"></i> Not Done</p>
+  <p><i class="fas fa-minus-circle" style="color: gold"></i> Unmarked</p>
+</div>
+<div id="habit-view" class="habit-view"></div>
+
+<% if (habits && habits.length > 0) { %>
+<script>
+  const prevDays = [];
+
+  for (let i = 1; i <= 7; i++) {
+    const dateObj = new Date();
+
+    dateObj.setDate(dateObj.getDate() - i);
+
+    const dateDayObj = {
+      date: `${dateObj.getDate()} ${getMonth(dateObj.getMonth())}`,
+      day: getWeekDay(dateObj.getDay()),
+      actualDate: dateObj.toDateString(),
+    };
+
+    prevDays.push(dateDayObj);
+  }
+
+  function getWeekDay(dayNumber) {
+    switch (dayNumber) {
+      case 0:
+        return "Sun";
+
+      case 1:
+        return "Mon";
+
+      case 2:
+        return "Tue";
+
+      case 3:
+        return "Wed";
+
+      case 4:
+        return "Thu";
+
+      case 5:
+        return "Fri";
+
+      case 6:
+        return "Sat";
+
+      default:
+        return null;
+    }
+  }
+
+  function getMonth(dayNumber) {
+    switch (dayNumber) {
+      case 0:
+        return "Jan";
+
+      case 1:
+        return "Feb";
+
+      case 2:
+        return "Mar";
+
+      case 3:
+        return "Apr";
+
+      case 4:
+        return "May";
+
+      case 5:
+        return "Jun";
+
+      case 6:
+        return "Jul";
+
+      case 7:
+        return "Aug";
+
+      case 8:
+        return "Sept";
+
+      case 9:
+        return "Oct";
+
+      case 10:
+        return "Nov";
+
+      case 11:
+        return "Dec";
+
+      default:
+        return null;
+    }
+  }
+
+  async function addHabitStatus(habit, date, status) {
+    const params = {
+      habit,
+      date,
+      status,
+    };
+
+    await axios.post("http://localhost:9000/update-habit-date", params, {
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    });
+
+    window.location.reload();
+  }
+
+  async function deleteHabit(id) {
+    await axios.delete(`http://localhost:9000/delete-habit?id=${id}`, {
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    });
+
+    window.location.reload();
+  }
+
+  function calculateDaysDiffrence(date1, date2) {
+    let first_date = new Date(date1);
+    let second_date = new Date(date2);
+
+    const time_difference = second_date.getTime() - first_date.getTime();
+
+    const days_difference = time_difference / (1000 * 60 * 60 * 24);
+
+    return Math.round(days_difference);
+  }
+
+  const stringHabits = `<%- JSON.stringify(habits) %>`;
+
+  const habits = JSON.parse(stringHabits) || [];
+
+  const habitView = document.querySelector("#habit-view");
+
+  habitView.innerHTML = `${habits.map((el) => {
+    return `
+         <div class="dates-section">
+       <div class="text-and-icon">
+         <div class="streak-and-habit">
+           <h3>${el.habit}</h3>
+           <p>Streak: ${el.dates.length}/${calculateDaysDiffrence(
+      el.start_date,
+      el.end_date
+    )}</p>
+         </div>
+         <button type="button" onclick="deleteHabit('${el._id}')" >
+           <i class="fas fa-trash-alt"></i>
+         </button>
+        
+       </div>
+
+       ${prevDays.map((item) => {
+         const dateExist = el.dates.find(
+           (elem) => elem.date.toString() === item.actualDate.toString()
+         );
+         return `<div class="date-box">
+         <div class="status-icon">
+          ${
+            dateExist && dateExist.status === "done"
+              ? `
+            <button type="button" onclick="addHabitStatus('${el.habit}', '${item.actualDate}', 'not-done')" >
+              <i class="fas fa-check-circle" style="color: #89fc00"></i>
+            </button>`
+              : dateExist && dateExist.status === "not-done"
+              ? `
+            <button type="button" onclick="addHabitStatus('${el.habit}', '${item.actualDate}', 'unknown')" >
+              <i class="fas fa-times-circle" style="color: #e63946"></i>
+            </button>`
+              : `
+                <button type="button" onclick="addHabitStatus('${el.habit}', '${item.actualDate}', 'done')" >
+                  <i class="fas fa-minus-circle" style="color: gold"></i>
+                </button>`
+          }
+         </div>
+         <div class="date">${item.day},${item.date}</div>
+       </div>`;
+       })}
+
+     </div>`;
+  })}`;
+</script>
+) <% } %>
