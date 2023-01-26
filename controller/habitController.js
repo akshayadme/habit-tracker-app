@@ -113,8 +113,14 @@ const deleteHabit = async (req, res) => {
     const id = req.query.id;
     await Habit.deleteOne({ _id: id });
 
-    req.flash("success_msg", "Habit deleted successfully!");
-    res.redirect("back");
+    // req.flash("success_msg", "Habit deleted successfully!");
+    const habitExist = await Habit.find({});
+    if (habitExist.length === 0) {
+      req.flash("error_msg", "No Habits Found!");
+      res.render("dashboard", { habits: [] });
+    } else {
+      res.render("dashboard", { habits: habitExist });
+    }
   } catch (error) {
     req.flash(
       "server_error",

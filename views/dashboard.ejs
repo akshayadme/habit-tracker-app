@@ -165,7 +165,7 @@
 
   const habitView = document.querySelector("#habit-view");
 
-  habitView.innerHTML = `${habits.map((el) => {
+  habitView.innerHTML = habits.map((el) => {
     return `
          <div class="dates-section">
        <div class="text-and-icon">
@@ -210,6 +210,6 @@
        })}
 
      </div>`;
-  })}`;
+  });
 </script>
-) <% } %>
+<% } %>
